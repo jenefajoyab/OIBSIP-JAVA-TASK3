@@ -1,0 +1,205 @@
+//ATM Interface using Java
+import java.util.*;
+class BankAccount{
+   String name;
+String userName;
+String password;
+String accountNo;
+float balance=100000f;
+int transactions=0;
+String transactionHistory="";
+
+public void register(){
+Scanner sc=new Scanner(System.in);
+System.out.println("\n Enter your Name: ");
+this.name=sc.nextLine();
+System.out.println("\n Enter your Username: ");
+this.userName=sc.nextLine();
+System.out.println("\n Enter your Password: ");
+this.password=sc.nextLine();
+System.out.println("\n Enter your Account Number: ");
+this.accountNo=sc.nextLine();
+System.out.println("Regitretion Completed");
+}
+
+public Boolean login(){
+boolean isLogin=false;
+Scanner sc=new Scanner(System.in);
+while(!isLogin){
+System.out.println("Enter yout Username: ");
+String Username=sc.nextLine();
+if(Username.equals(userName)){
+while(!isLogin){
+System.out.println("Enter your Password: ");
+String Password=sc.nextLine();
+if(Password.equals(password)){
+System.out.println("Login Successful");
+isLogin=true;
+}
+else{
+System.out.println("Incorrect Password");
+}
+}
+}
+else{
+System.out.println("Username not found");
+}
+}
+return isLogin;
+}
+
+public void withdraw(){
+System.out.println("Enter amount to withdraw");
+Scanner sc=new Scanner(System.in);
+float amount=sc.nextFloat();
+try{
+  if(balance>=amount){
+transactions++;
+balance-=amount;
+System.out.println("Withdraw Successful");
+String str=amount+"Rs Withdraw \n";
+transactionHistory=transactionHistory.concat(str);
+}
+else{
+System.out.println("Insufficient Balance");
+}
+}
+catch(Exception e){
+}
+}
+
+public void deposit(){
+System.out.println("Enter amount to deposit");
+Scanner sc=new Scanner(System.in);
+float amount=sc.nextFloat();
+try{
+  if(amount<=100000f){
+transactions++;
+balance+=amount;
+System.out.println("Deposited Successfully");
+String str=amount+" Rs Deposited \n";
+transactionHistory=transactionHistory.concat(str);
+}
+else{
+System.out.println("Insufficient Balance");
+}
+}
+
+catch(Exception e){
+}
+}
+
+public void transfer(){
+System.out.println("Enter Receipient's Name: ");
+Scanner sc=new Scanner(System.in);
+String receipent=sc.nextLine();
+System.out.println("Enter amount to transfer");
+float amount=sc.nextFloat();
+try{
+  if(balance>=amount){
+if(amount<=50000f){
+transactions++;
+balance-=amount;
+System.out.println("Successfully transferred to "+receipent);
+String str=amount+"Rs transferred to "+receipent+" \n";
+transactionHistory=transactionHistory.concat(str);
+}
+else{
+System.out.println("Insufficient Balance");
+}
+}
+}
+catch(Exception e){
+}
+
+}
+
+public void checkBalance(){
+System.out.println("your balance is"+balance);
+}
+public void transHistory(){
+if(transactions==0){
+System.out.println("Empty");
+}
+else{
+System.out.println(transactionHistory);
+}
+}
+}
+
+
+public class AtmInterface{
+public static int takeIntegerInput(int limit){
+int input =0;
+boolean flag = false;
+while(!flag){
+try{
+Scanner sc=new Scanner(System.in);
+input=sc.nextInt();
+flag=true;
+if(flag && input>limit || input<1){
+System.out.println("Choose the number 1 to "+limit);
+flag=false;
+}
+}
+catch(Exception e){
+System.out.println("Enter only integer value");
+flag=false;
+}
+}
+return input;
+}
+
+public static void main(String[] args){
+System.out.println("Welcome to National ATM System");
+System.out.println("Enter your choice");
+int choice=takeIntegerInput(2);
+if(choice==1){
+    BankAccount b= new BankAccount();
+    b.register();
+    while(true){
+        System.out.println("1.Login \n2.Exit");
+        System.out.println("Enter your choice");
+        int ch=takeIntegerInput(2);
+if(ch==1){
+if(b.login()){
+System.out.println("Welcome back "+b.name);
+boolean isFinished=false;
+while(!isFinished){
+System.out.println("1.Withdraw \n2.Deposit \n3.transfer \n4.Check Balance \n5.Transacion History \n6.Exit");
+int c=takeIntegerInput(6);
+switch(c){
+case 1:
+b.withdraw();
+break;
+case 2:
+b.deposit();
+break;
+case 3:
+b.transfer();
+break;
+case 4:
+b.checkBalance();
+break;
+case 5:
+b.transHistory();
+break;
+case 6:
+isFinished=false;
+break;
+}
+}
+}
+}
+else{
+System.exit(0);
+}
+}
+}
+}
+}
+
+
+
+
+
